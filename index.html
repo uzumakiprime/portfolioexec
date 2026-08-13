@@ -1,0 +1,724 @@
+
+
+Index · HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sohonsagar Singha — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0f14;
+    --bg-elev: #121821;
+    --bg-elev-2: #1a222e;
+    --border: #232d3a;
+    --text: #e7e9ed;
+    --text-muted: #8892a0;
+    --text-faint: #59626f;
+    --amber: #e8a33d;
+    --blue: #5b8def;
+    --red: #e2604f;
+    --radius: 10px;
+    --maxw: 1120px;
+    --nav-h: 64px;
+  }
+ 
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+ 
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::before{
+    content:'';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+ 
+  h1,h2,h3{ font-family: 'Space Grotesk', sans-serif; font-weight: 600; letter-spacing: -0.01em; }
+  .mono{ font-family: 'JetBrains Mono', monospace; }
+  a{ color: inherit; text-decoration: none; }
+  ::selection{ background: var(--amber); color: #0b0f14; }
+ 
+  .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+  section{ position: relative; z-index: 1; }
+ 
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+ 
+  /* ---------- NAV ---------- */
+  header{
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    z-index: 100;
+    background: rgba(11,15,20,0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav.wrap{
+    height: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono', monospace; font-size: 14px; font-weight: 500;
+  }
+  .brand .dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--amber);
+    box-shadow: 0 0 0 3px rgba(232,163,61,0.15);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity: 1; } 50%{ opacity: 0.4; }
+  }
+  .nav-links{ display:flex; gap: 4px; list-style:none; align-items:center; }
+  .nav-links a{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: color .15s ease, background .15s ease;
+  }
+  .nav-links a::before{ content: '~/'; color: var(--text-faint); }
+  .nav-links a:hover, .nav-links a.active{
+    color: var(--text);
+    background: var(--bg-elev-2);
+  }
+  .nav-links a.active{ color: var(--amber); }
+ 
+  .nav-cta{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .nav-cta:hover{ border-color: var(--amber); background: rgba(232,163,61,0.08); }
+ 
+  .menu-btn{
+    display:none;
+    flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer;
+    padding: 8px;
+  }
+  .menu-btn span{ width: 22px; height: 2px; background: var(--text); display:block; transition: transform .2s ease, opacity .2s ease; }
+  .menu-btn.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+  .menu-btn.open span:nth-child(2){ opacity: 0; }
+  .menu-btn.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+ 
+  .mobile-panel{
+    position: fixed; top: var(--nav-h); left:0; right:0;
+    background: var(--bg-elev);
+    border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    padding: 12px 24px 20px;
+    gap: 4px;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .18s ease, opacity .18s ease;
+    z-index: 99;
+  }
+  .mobile-panel.open{ transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .mobile-panel a{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 15px;
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .mobile-panel a::before{ content:'~/'; color: var(--text-faint); }
+ 
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height: 100svh;
+    display: flex; align-items: center;
+    padding-top: var(--nav-h);
+  }
+  .hero-grid{
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+    width: 100%;
+    padding: 64px 0;
+  }
+  .hero-photo{
+    position: relative;
+    width: 128px;
+    height: 128px;
+    margin-bottom: 28px;
+  }
+  .hero-photo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    filter: grayscale(35%);
+    transition: filter .25s ease;
+  }
+  .hero-photo:hover img{ filter: grayscale(0%); }
+  .hero-photo::before{
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px dashed var(--border);
+  }
+  .hero-photo-tag{
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 9px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+ 
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--amber);
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 22px;
+  }
+  .eyebrow .bar{ width: 28px; height: 1px; background: var(--amber); }
+  .hero h1{
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.08;
+    margin-bottom: 22px;
+  }
+  .hero h1 .accent{ color: var(--amber); }
+  .hero p.lede{
+    font-size: 1.08rem;
+    color: var(--text-muted);
+    max-width: 46ch;
+    margin-bottom: 34px;
+  }
+  .hero-actions{ display:flex; gap: 14px; flex-wrap: wrap; }
+  .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 14px;
+    padding: 13px 22px;
+    border-radius: 6px;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn-primary{ background: var(--amber); color: #0b0f14; font-weight: 600; }
+  .btn-primary:hover{ transform: translateY(-2px); }
+  .btn-ghost{ border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--text-muted); transform: translateY(-2px); }
+ 
+  /* signature: byte-grid visualization */
+  .byte-panel{
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .byte-panel-head{
+    display:flex; align-items:center; justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+  .byte-panel-head .lights{ display:flex; gap:6px; }
+  .byte-panel-head .lights span{ width:8px; height:8px; border-radius:50%; background: var(--border); }
+  .byte-body{ display:flex; }
+  .byte-offsets{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    padding: 14px 10px;
+    display: flex; flex-direction: column; gap: 6.5px;
+    border-right: 1px solid var(--border);
+    user-select: none;
+  }
+  #byteGrid{ display:block; width:100%; height:auto; }
+  .byte-caption{
+    padding: 10px 16px 14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    border-top: 1px solid var(--border);
+  }
+  .byte-caption b{ color: var(--amber); font-weight: 500; }
+ 
+  /* ---------- SECTION HEADS ---------- */
+  .section-head{ margin-bottom: 52px; max-width: 60ch; }
+  .section-head .eyebrow{ margin-bottom: 14px; }
+  .section-head h2{ font-size: clamp(1.7rem, 3vw, 2.2rem); margin-bottom: 14px; }
+  .section-head p{ color: var(--text-muted); }
+ 
+  section.pad{ padding: 110px 0; }
+  section.pad + section.pad{ border-top: 1px solid var(--border); }
+ 
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .about-copy p{ color: var(--text-muted); margin-bottom: 18px; font-size: 1.02rem; }
+  .about-copy p b{ color: var(--text); font-weight: 500; }
+ 
+  .meta-panel{
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .meta-panel-head{
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+  .meta-row{
+    display:flex; justify-content: space-between; gap: 16px;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .meta-row:last-child{ border-bottom: none; }
+  .meta-row .k{ color: var(--text-faint); }
+  .meta-row .v{ color: var(--text); text-align: right; }
+ 
+  .focus-tags{ display:flex; flex-wrap:wrap; gap: 8px; margin-top: 22px; }
+  .focus-tags span{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text-muted);
+  }
+ 
+  /* ---------- PROJECTS ---------- */
+  .projects-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .card{
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    display: flex; flex-direction: column;
+    transition: border-color .18s ease, transform .18s ease;
+  }
+  .card:hover{ border-color: var(--text-faint); transform: translateY(-3px); }
+  .card.placeholder{ border-style: dashed; opacity: 0.7; }
+  .card.placeholder:hover{ opacity: 1; }
+ 
+  .tag-row{ display:flex; gap:8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+  }
+  .tag.amber{ background: rgba(232,163,61,0.12); color: var(--amber); }
+  .tag.blue{ background: rgba(91,141,239,0.12); color: var(--blue); }
+ 
+  .card h3{ font-size: 1.2rem; margin-bottom: 10px; }
+  .card p{ color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; }
+ 
+  .metric-row{ display:flex; gap: 22px; margin-bottom: 20px; }
+  .metric{ font-family:'JetBrains Mono', monospace; }
+  .metric .num{ font-size: 1.3rem; color: var(--amber); font-weight: 600; display:block; }
+  .metric .label{ font-size: 10.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; }
+ 
+  .card-links{ display:flex; gap: 16px; }
+  .card-links a{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    border-bottom: 1px solid transparent;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .card-links a:hover{ color: var(--amber); border-color: var(--amber); }
+ 
+  .stack-row{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom: 20px; }
+  .stack-row span{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-faint);
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+ 
+  /* ---------- CONTACT ---------- */
+  .contact-panel{
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 56px;
+    text-align: center;
+  }
+  .contact-panel h2{ font-size: clamp(1.7rem, 3.4vw, 2.4rem); margin-bottom: 16px; }
+  .contact-panel p{ color: var(--text-muted); max-width: 48ch; margin: 0 auto 34px; }
+  .contact-actions{ display:flex; justify-content:center; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
+ 
+  .copy-note{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--amber);
+    height: 16px;
+    margin-top: -24px;
+    margin-bottom: 24px;
+  }
+ 
+  .social-row{ display:flex; justify-content:center; gap: 28px; flex-wrap: wrap; }
+  .social-row a{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+    display:flex; align-items:center; gap:8px;
+    transition: color .15s ease;
+  }
+  .social-row a:hover{ color: var(--text); }
+  .social-row a svg{ width:16px; height:16px; stroke: currentColor; fill:none; }
+ 
+  footer{
+    padding: 32px 0 48px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+ 
+  /* reveal on scroll */
+  .reveal{ opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity: 1; transform: translateY(0); }
+ 
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 880px){
+    .nav-links, .nav-cta{ display: none; }
+    .menu-btn{ display: flex; }
+    .hero-grid{ grid-template-columns: 1fr; padding: 40px 0; }
+    .hero-photo{ width: 104px; height: 104px; }
+    .hero{ min-height: auto; padding-bottom: 40px; }
+    .about-grid{ grid-template-columns: 1fr; gap: 40px; }
+    .projects-grid{ grid-template-columns: 1fr; }
+    .contact-panel{ padding: 36px 22px; }
+    section.pad{ padding: 72px 0; }
+  }
+  @media (max-width: 480px){
+    .wrap{ padding: 0 20px; }
+    .byte-offsets{ display: none; }
+    .contact-actions{ flex-direction: column; align-items: stretch; }
+  }
+</style>
+</head>
+<body>
+ 
+<header>
+  <nav class="wrap">
+    <div class="brand"><span class="dot"></span> sohonsagar.singha</div>
+    <ul class="nav-links">
+      <li><a href="#home" class="active">home</a></li>
+      <li><a href="#about">about</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">say_hello()</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="#home">home</a>
+    <a href="#about">about</a>
+    <a href="#projects">projects</a>
+    <a href="#contact">contact</a>
+  </div>
+</header>
+ 
+<main>
+ 
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-photo">
+          <img src="12.jpeg" alt="Sohonsagar Singha">
+          <span class="hero-photo-tag">profile.jpg</span>
+        </div>
+        <div class="eyebrow"><span class="bar"></span> PhD (CS) · NIT Meghalaya</div>
+        <h1>Sohonsagar Singha —<br>turning <span class="accent">binaries into signal</span>, and signal into defense.</h1>
+        <p class="lede">I research deep learning methods for malware detection — converting raw executables into visual and statistical representations that models can actually learn from.</p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">View research →</a>
+          <a href="#contact" class="btn btn-ghost">Get in touch</a>
+        </div>
+      </div>
+ 
+      <div class="byte-panel">
+        <div class="byte-panel-head">
+          <span>sample.exe — byte_plot.render()</span>
+          <div class="lights"><span></span><span></span><span></span></div>
+        </div>
+        <div class="byte-body">
+          <div class="byte-offsets" id="byteOffsets"></div>
+          <svg id="byteGrid" viewBox="0 0 320 220" preserveAspectRatio="none" role="img" aria-label="Animated grid representing a binary file rendered as a grayscale image, a technique used in malware classification"></svg>
+        </div>
+        <div class="byte-caption">binary → 2D grayscale image → <b>CNN classifier</b></div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ABOUT -->
+  <section class="pad" id="about">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="bar"></span> 01 · about</div>
+        <h2>Trained on threats, tuned for research.</h2>
+      </div>
+ 
+      <div class="about-grid">
+        <div class="about-copy reveal">
+          <p>I'm a <b>PhD Computer Science</b> scholar at <b>NIT Meghalaya</b>, working at the intersection of <b>deep learning, machine learning and cybersecurity</b>. My thesis explores static malware analysis from two angles: classifying malware by rendering binaries as images for CNNs to interpret, and studying how well detection models generalize across completely different malware datasets.</p>
+          <p>I'm broadly interested in <b>computer vision</b> and applied machine learning for security — the kind of problems where a model has to hold up outside the dataset it was trained on, not just inside it.</p>
+          <!-- <p>I'm currently looking toward a <b>PhD</b>, continuing along this line of adversarial, real-world-robust ML research.</p> -->
+        </div>
+ 
+        <div class="meta-panel">
+          <div class="meta-panel-head">// file_properties.meta</div>
+          <div class="meta-row"><span class="k">name</span><span class="v">Sohonsagar Singha</span></div>
+          <div class="meta-row"><span class="k">alias</span><span class="v">PrimeS</span></div>
+          <div class="meta-row"><span class="k">role</span><span class="v">PhD, Computer Science</span></div>
+          <div class="meta-row"><span class="k">institution</span><span class="v">NIT Meghalaya</span></div>
+          <div class="meta-row"><span class="k">focus</span><span class="v">DL · ML · CV · Cybersecurity</span></div>
+          <div class="meta-row"><span class="k">status</span><span class="v">Researching on latest developments</span></div>
+          <!-- <div class="focus-tags">
+            <span>Deep Learning</span><span>PyTorch</span><span>Malware Analysis</span><span>Computer Vision</span><span>Explainable AI</span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- PROJECTS -->
+  <section class="pad" id="projects">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="bar"></span> 02 · projects</div>
+        <h2>Selected research & builds.</h2>
+        <p>A compilation of my research projects and experimental builds.</p>
+      </div>
+ 
+      <div class="projects-grid">
+        <div class="card reveal">
+          <div class="tag-row"><span class="tag amber">Deep Learning</span><span class="tag blue">CNN</span></div>
+          <h3>Image-Based Malware Classification</h3>
+          <p>Two fusion architectures — a Dual-Base VGG16 + DenseNet121 model, and DLSE-Net, which adds LBP texture features and Squeeze-and-Excitation attention — for classifying malware rendered as grayscale images.</p>
+          <div class="metric-row">
+            <div class="metric"><span class="num">99.31%</span><span class="label">Malimg acc.</span></div>
+            <div class="metric"><span class="num">98.85%</span><span class="label">BIG 2015 acc.</span></div>
+          </div>
+          <div class="stack-row"><span>PyTorch</span><span>VGG16</span><span>DenseNet121</span><span>LBP + SE Attention</span></div>
+          <div class="card-links"><a href="https://github.com/uzumakiprime">Code ↗</a></div>  <!-- <a href="#">Write-up ↗</a> -->
+        </div>
+ 
+        <div class="card reveal">
+          <div class="tag-row"><span class="tag amber">Static Analysis</span><span class="tag blue">CNN</span></div>
+          <h3>Custom CNN Classifier</h3>
+          <p>A 10-layer CNN designed especially for malware images. Yet to be tested on real world images of cats and dogs.</p>
+           <div class="metric-row">
+            <!--<div class="metric"><span class="num">99.31%</span><span class="label">Malimg acc.</span></div>-->
+            <div class="metric"><span class="num">96%</span><span class="label">BIG 2015 acc.</span></div>
+          </div>
+          <div class="stack-row"><span>CNN</span><!--<span>SHAP</span><span>LIME</span><span>BODMAS</span><span>EMBER-2018</span>--></div>
+          <div class="card-links"><a href="https://github.com/uzumakiprime/Malware-Detector/tree/main">Code ↗</a></div>
+        </div>
+ 
+        <div class="card placeholder reveal">
+          <div class="tag-row"><span class="tag amber">Surface Detection</span><span class="tag blue">3D UNet</span></div>
+          <h3>Vesuvius-Challenge</h3>
+          <p>This repository/notebook implements a lightweight 3D UNet pipeline to segment papyrus sheet surfaces from CT volume crops (Vesuvius Challenge). The notebook includes data loading, EDA, a compact UNet3D model, training, sliding-window inference, metric computation (Dice, Surface Dice, TopoScore approximation, VOI), and a no-retrain inference fix (use probability thresholding rather than hard argmax). The challenge in this competition is to detect and segment layers of papyrus in 3D imagery.</p>
+          <div class="stack-row"><span>UNet3DLight</span><span>TopoScore</span><span>Dice</span><span>Kaggle</span></div>
+          <div class="card-links"><a href="https://github.com/uzumakiprime/Vesuvius-Challenge---Surface-Detection">Code ↗</a></div>
+        </div>
+ 
+        <div class="card placeholder reveal">
+          <div class="tag-row"><span class="tag amber">YOLOv11</span></div>
+          <h3>Object Detection</h3>
+          <p>A basic YOLO11 model. It is using the Yolo11n, which is faster and somewhat accurate. Other powerful models can be used which will require more gpu power and memory, such as Yolo11x. Any image can be given to the model for prediction, you can put your images inside the "images" folder. Moreover it can also detect using webcam.</p>
+          <div class="stack-row"><span>YOLO11n</span><span>Webcam</span><span>Kaggle</span></div>
+          <div class="card-links"><a href="https://github.com/uzumakiprime/Object_detection_YOLO11">Code ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- CONTACT -->
+  <section class="pad" id="contact">
+    <div class="wrap">
+      <div class="contact-panel reveal">
+        <div class="eyebrow" style="justify-content:center;"><span class="bar"></span> 03 · contact</div>
+        <h2>Let's talk research, PhD leads, or interesting problems.</h2>
+        <p>Reach out about collaborations, opportunities, or anything malware-and-ML shaped. I usually reply within a couple of days.</p>
+        <div class="contact-actions">
+          <button class="btn btn-primary" id="copyEmailBtn">Copy email</button>
+          <a href="mailto:sohonsagar@gmail.com" class="btn btn-ghost">Send an email →</a>
+        </div>
+        <div class="copy-note" id="copyNote"></div>
+        <div class="social-row">
+          <a href="https://github.com/uzumakiprime" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.7 2.8 5.6 3.1 5.6 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.2 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/sohonsagarsingha/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 21v-7a3 3 0 0 1 6 0v7M10 9v12"/></svg>
+            LinkedIn
+          </a>
+          <!--<a href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 3 2 8l10 5 10-5-10-5zM2 8v8l10 5 10-5V8M12 13v8"/></svg>
+            Scholar
+          </a>-->
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+</main>
+ 
+<footer>
+  built by hand · primes.html · last render <span id="year"></span>
+</footer>
+ 
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+ 
+  // mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobilePanel = document.getElementById('mobilePanel');
+  menuBtn.addEventListener('click', () => {
+    const open = menuBtn.classList.toggle('open');
+    mobilePanel.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open);
+  });
+  mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    menuBtn.classList.remove('open');
+    mobilePanel.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }));
+ 
+  // active nav link on scroll
+  const sections = document.querySelectorAll('main section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const setActive = () => {
+    let current = sections[0]?.id;
+    const y = window.scrollY + 120;
+    sections.forEach(s => { if (y >= s.offsetTop) current = s.id; });
+    navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+  };
+  document.addEventListener('scroll', setActive, { passive: true });
+  setActive();
+ 
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+ 
+  // copy email
+  const copyBtn = document.getElementById('copyEmailBtn');
+  const copyNote = document.getElementById('copyNote');
+  copyBtn.addEventListener('click', async () => {
+    const email = 'sohonsagar@gmail.com';
+    try {
+      await navigator.clipboard.writeText(email);
+      copyNote.textContent = 'copied — ' + email;
+    } catch {
+      copyNote.textContent = email;
+    }
+    setTimeout(() => copyNote.textContent = '', 3000);
+  });
+ 
+  // ---- byte-grid signature visualization ----
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const grid = document.getElementById('byteGrid');
+  const offsetsCol = document.getElementById('byteOffsets');
+  const COLS = 16, ROWS = 11, CELL = 20;
+  grid.setAttribute('viewBox', `0 0 ${COLS*CELL} ${ROWS*CELL}`);
+ 
+  const cells = [];
+  const palette = ['#151b24', '#1c2733', '#243347', '#2c4569', 'rgba(232,163,61,0.35)', 'rgba(91,141,239,0.4)'];
+ 
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const rect = document.createElementNS(svgNS, 'rect');
+      rect.setAttribute('x', c*CELL);
+      rect.setAttribute('y', r*CELL);
+      rect.setAttribute('width', CELL - 2);
+      rect.setAttribute('height', CELL - 2);
+      rect.setAttribute('rx', 2);
+      const fill = palette[Math.floor(Math.random()*palette.length)];
+      rect.setAttribute('fill', fill);
+      grid.appendChild(rect);
+      cells.push(rect);
+    }
+    const off = document.createElement('div');
+    off.textContent = (r*16).toString(16).padStart(4,'0');
+    offsetsCol.appendChild(off);
+  }
+ 
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    setInterval(() => {
+      for (let i = 0; i < 10; i++) {
+        const idx = Math.floor(Math.random()*cells.length);
+        cells[idx].setAttribute('fill', palette[Math.floor(Math.random()*palette.length)]);
+      }
+    }, 220);
+  }
+</script>
+ 
+</body>
+</html>
+ 
